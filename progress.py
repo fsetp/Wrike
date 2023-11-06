@@ -168,17 +168,22 @@ class ProgressLib():
 
 				# Subract Journal Time Delta from Schedule Time Period
 				jorLatestWorkDate = schTaskStartDate
-				for jor_row in range(jor_rows):
-					# 
-					if (self.schTaskTitle[sch_row] == self.jorTaskTitle[jor_row]):
-						jorTimeDelta = jorTimeDelta - self.jorWorkTime[jor_row]
-						available = True
+				if (jorLatestWorkDate is not None):
+					for jor_row in range(jor_rows):
+						# 
+#						print(type(self.schTaskTitle[sch_row]))
+#						print(type(self.jorTaskTitle[jor_row]))
+						if (self.schTaskTitle[sch_row] == self.jorTaskTitle[jor_row]):
+							jorTimeDelta = jorTimeDelta - self.jorWorkTime[jor_row]
+							available = True
 
-					#
-					jorWorkDate = self.jorWorkDate[jor_row]
-					if (helper.IsDateType(jorLatestWorkDate) and helper.IsDateType(jorWorkDate)):
-						if (jorLatestWorkDate < jorWorkDate):
-							jorLatestWorkDate = jorWorkDate
+						#
+						jorWorkDate = self.jorWorkDate[jor_row]
+#						print(type(jorLatestWorkDate))
+#						print(type(jorWorkDate))
+						if (helper.IsDateType(jorLatestWorkDate) and helper.IsDateType(jorWorkDate)):
+							if (jorLatestWorkDate < jorWorkDate):
+								jorLatestWorkDate = jorWorkDate
 
 				# 
 				if (available == True):
@@ -201,6 +206,8 @@ class ProgressLib():
 
 					# Work Date Expired Judgement
 					strJudge = ''
+#					print(type(jorLatestWorkDate))
+#					print(type(schTaskStartDate))
 					if (jorLatestWorkDate < schTaskStartDate):
 						strJudge = 'Early'
 					elif (jorLatestWorkDate > schTaskStartDate):
