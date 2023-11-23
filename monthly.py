@@ -2,6 +2,8 @@
 #
 #
 import pandas as pd
+import datetime
+import calendar
 import helper
 
 ########################################
@@ -95,14 +97,111 @@ class MonthlyLib():
 
 	####################################
 	#
-	def Do(self):
-		rows = self.schTaskTitle.shape
-
-		#
+	def GetPrice(self, title):
+		rows = self.mstTaskTitle.shape
 		for row in range(rows[0]):
-#			self.schTaskTitle[row]
-#			self.schTaskStartDate[row]
-#			self.schTaskEndDate[row]
+			if (title == self.mstTaskTitle[row]):
+				return self.mstUnitPrice[row]
+		return 0
 
-			print(type(self.schTaskStartDate[row]))
-			print(f'Title: {self.schTaskTitle[row]} Start Date: {self.schTaskStartDate[row]} - End Date:{self.schTaskEndDate[row]}')
+	####################################
+	#
+	def GetMonthlyCount(self, year, month):
+		count = 0
+
+		first_date = datetime.datetime(year, month, 1).date()
+		days = calendar.monthrange(year, month)
+		last_date = datetime.datetime(year, month, days[1]).date()
+
+		rows = self.jorTaskTitle.shape
+
+		total = 0
+		for row in range(rows[0]):
+			if (self.jorWorkDate[row] >= first_date and self.jorWorkDate[row] <= last_date):
+				count += 1
+
+		return count
+
+	####################################
+	#
+	def MakeMonthlyReport(self, year, month):
+		first_date = datetime.datetime(year, month, 1).date()
+#		print(first_date)
+		days = calendar.monthrange(year, month)
+		last_date = datetime.datetime(year, month, days[1]).date()
+#		print(last_date)
+
+		rows = self.jorTaskTitle.shape
+#		print(type(rows[0]))
+
+		print('date, tilte, time, price, suntotal')
+		total = 0
+		for row in range(rows[0]):
+			if (self.jorWorkDate[row] >= first_date and self.jorWorkDate[row] <= last_date):
+				time = self.jorWorkTime[row]
+#				print(type(time))
+				hours = time.days * 24 + time.seconds / 3600
+				price = self.GetPrice(self.jorTaskTitle[row])
+				subtotal = hours * price
+				total += subtotal
+				print(f'{self.jorWorkDate[row]}, {self.jorTaskTitle[row]}, {time}, {price}, {subtotal}')
+
+		print(f'total : {total}')
+
+	####################################
+	#
+	def OutputMonthlyReport2Excel(self):
+
+		print('Create Monthly Report Excel File.')
+		print('Making Information Object(s) ...', end = ' ')
+
+		WorkDate = pd.Series(dtype = object)
+		TaskTitle  = pd.Series(dtype = object)
+		TaskTime = pd.Series(dtype = object)
+		UnitPrice = pd.Series(dtype = object)
+		SubTotal = pd.Series(dtype = object)
+
+		years = (2023, 2024)
+		for year in years:
+			for month in range(1, 13):
+				if (self.GetMonthlyCount(year, month) > 0):
+
+					first_date = datetime.datetime(year, month, 1).date()
+					days = calendar.monthrange(year, month)
+					last_date = datetime.datetime(year, month, days[1]).date()
+					rows = self.jorTaskTitle.shape
+					total = 0
+					for row in range(rows[0]):
+						if (self.jorWorkDate[row] >= first_date and self.jorWorkDate[row] <= last_date):
+							time = self.jorWorkTime[row]
+							hours = time.days * 24 + time.seconds / 3600
+							price = self.GetPrice(self.jorTaskTitle[row])
+							subtotal = hours * price
+							total += subtotal
+
+							WorkDate[str(row)]  = self.jorWorkDate[row]
+							TaskTitle[str(row)] = self.jorTaskTitle[row]
+							TaskTime[str(row)]  = time
+							UnitPrice[str(row)] = price
+							SubTotal[str(row)]  = subtotal
+
+		idx_df = []
+		idx_df.append('日付')
+		idx_df.append('タスク名')
+		idx_df.append('タスク時間')
+		idx_df.append('タスク単価')
+		idx_df.append('小計')
+
+		df = pd.concat([	WorkDate,
+							TaskTitle,
+							TaskTime,
+							UnitPrice,
+							SubTotal	],
+							axis = 1)
+		df.columns = idx_df
+		print('Done.')
+
+		print(f'Writing Excel File [{XLS_NAME}] ...', end = ' ')
+		df.to_excel(XLS_NAME, sheet_name = SHEET_NAME, index = False)
+		print('Done.')
+		print('')

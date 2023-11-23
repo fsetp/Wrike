@@ -76,8 +76,17 @@ def main():
 
 	###################################
 	#
-#	mon.Do()
-	prg.MakeReport()
+	years = (2023, 2024)
+	for year in years:
+		for month in range(1, 13):
+#			print(f'{year}/{month}')
+			if (mon.GetMonthlyCount(year, month) > 0):
+				mon.MakeMonthlyReport(year, month)
+
+	mon.OutputMonthlyReport2Excel()
+
+
+#	prg.MakeReport()
 
 ################################################################################
 if __name__ == "__main__":
