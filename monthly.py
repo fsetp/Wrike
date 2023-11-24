@@ -155,11 +155,11 @@ class MonthlyLib():
 		print('Create Monthly Report Excel File.')
 		print('Making Information Object(s) ...', end = ' ')
 
-		WorkDate = pd.Series(dtype = object)
-		TaskTitle  = pd.Series(dtype = object)
-		TaskTime = pd.Series(dtype = object)
+		WorkDate  = pd.Series(dtype = object)
+		TaskTitle = pd.Series(dtype = object)
+		TaskTime  = pd.Series(dtype = object)
 		UnitPrice = pd.Series(dtype = object)
-		SubTotal = pd.Series(dtype = object)
+		SubTotal  = pd.Series(dtype = object)
 
 		years = (2023, 2024)
 		for year in years:
@@ -181,7 +181,9 @@ class MonthlyLib():
 
 							WorkDate[str(row)]  = self.jorWorkDate[row]
 							TaskTitle[str(row)] = self.jorTaskTitle[row]
-							TaskTime[str(row)]  = time
+							value = helper.Delta2Hours(time)
+#							print(value)
+							TaskTime[str(row)]  = value
 							UnitPrice[str(row)] = price
 							SubTotal[str(row)]  = subtotal
 
