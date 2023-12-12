@@ -90,6 +90,7 @@ class ProgressLib():
 	#
 	def SetJournalWorkTime(self, series):
 		self.jorWorkTime = series
+#		print(self.jorWorkTime)
 
 	####################################
 	#
@@ -221,6 +222,7 @@ class ProgressLib():
 					value = helper.Delta2Hours(jorTimeDelta)
 					self.prgTaskPeriod[str(index)] = value
 					self.prgTaskPeriod[str(index)].astype(float)
+					print(jorTimeDelta)
 
 					# Task Period
 #					value = schTimeDelta.days * 24 + schTimeDelta.seconds / 3600

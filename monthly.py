@@ -144,9 +144,9 @@ class MonthlyLib():
 				price = self.GetPrice(self.jorTaskTitle[row])
 				subtotal = hours * price
 				total += subtotal
-				print(f'{self.jorWorkDate[row]}, {self.jorTaskTitle[row]}, {time}, {price}, {subtotal}')
+#				print(f'{self.jorWorkDate[row]}, {self.jorTaskTitle[row]}, {time}, {price}, {subtotal}')
 
-		print(f'total : {total}')
+#		print(f'total : {total}')
 
 	####################################
 	#

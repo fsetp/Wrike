@@ -86,7 +86,7 @@ def main():
 	mon.OutputMonthlyReport2Excel()
 
 
-#	prg.MakeReport()
+	prg.MakeReport()
 
 ################################################################################
 if __name__ == "__main__":
