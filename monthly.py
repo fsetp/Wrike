@@ -69,6 +69,7 @@ class MonthlyLib():
 	#
 	def SetMasterUnitPrice(self, series):
 		self.mstUnitPrice = series
+#		self.ShowTitlePrice()
 
 	####################################
 	#
@@ -97,10 +98,20 @@ class MonthlyLib():
 
 	####################################
 	#
+	def ShowTitlePrice(self):
+		#
+		rows = self.mstTaskTitle.shape
+		total = 0
+		for row in range(rows[0]):
+			print(f'{self.mstTaskTitle[row]} : {self.mstUnitPrice[row]}')
+
+	####################################
+	#
 	def GetPrice(self, title):
 		rows = self.mstTaskTitle.shape
 		for row in range(rows[0]):
 			if (title == self.mstTaskTitle[row]):
+#				print(f'{title} {self.mstTaskTitle[row]} {self.mstUnitPrice[row]}')
 				return self.mstUnitPrice[row]
 		return 0
 
@@ -134,7 +145,7 @@ class MonthlyLib():
 		rows = self.jorTaskTitle.shape
 #		print(type(rows[0]))
 
-		print('date, tilte, time, price, suntotal')
+#		print('date, tilte, time, price, suntotal')
 		total = 0
 		for row in range(rows[0]):
 			if (self.jorWorkDate[row] >= first_date and self.jorWorkDate[row] <= last_date):

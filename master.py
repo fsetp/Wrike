@@ -6,7 +6,7 @@ import helper
 
 ########################################
 #
-XLS_NAME	= 'TaskMaster(1124).xlsx'
+XLS_NAME	= 'TaskMaster(1223).xlsx'
 SHEET_NAME	= 'Task Info'
 
 TASK_TITLE_COLUMN		= 'タスク名'
@@ -64,8 +64,30 @@ class TaskMasterLib():
 		self.UnitPrice = self.DataFrame[UNIT_PRICE_COLUMN]
 
 		print('')
+
+#		self.ShowTitlePrice()
+
 #		print(self.DataFrame)
 #		return self.DataFrame
+
+	####################################
+	#
+	def ShowTitlePrice(self):
+		#
+		rows = self.TaskTitle.shape
+		total = 0
+		for row in range(rows[0]):
+			print(f'{self.TaskTitle[row]} : {self.UnitPrice[row]}')
+
+	####################################
+	#
+	def GetPrice(self, title):
+		rows = self.TaskTitle.shape
+		for row in range(rows[0]):
+			if (title == self.TaskTitle[row]):
+#				print(f'{title} {self.TaskTitle[row]} {self.UnitPrice[row]}')
+				return self.UnitPrice[row]
+		return 0
 
 	####################################
 	#

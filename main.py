@@ -74,6 +74,10 @@ def main():
 	prg.SetJournalWorkTime(jor.GetWorkTime())
 	prg.SetJournalDescription(jor.GetDescription())
 
+#	title = 'ES1-DS-PL-MC メカ'
+#	print(f'title {mon.GetPrice(title)}')
+#	print(f'title {mst.GetPrice(title)}')
+
 	###################################
 	#
 	years = (2023, 2024)
